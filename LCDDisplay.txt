@@ -1,0 +1,9 @@
+Project Components
+LCDDisplay,738,210
+Arduino,143,222
+MomentaryDepress,383,63
+Project Connections
+Arduino,143,222,d10,MomentaryDepress,383,63,Switch Left
+Arduino,143,222,gnd,MomentaryDepress,383,63,Switch Right
+Project Source
+lcdDisplay.ino

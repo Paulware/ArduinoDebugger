@@ -1,0 +1,12 @@
+Project Components
+Arduino,312,284
+Keypad,473,17
+Project Connections
+Arduino,312,284,d02,Keypad,473,17,pin0
+Arduino,312,284,d03,Keypad,473,17,pin1
+Arduino,312,284,d04,Keypad,473,17,pin2
+Arduino,312,284,d05,Keypad,473,17,pin3
+Arduino,312,284,d06,Keypad,473,17,pin4
+Arduino,312,284,d07,Keypad,473,17,pin5
+Arduino,312,284,d08,Keypad,473,17,pin7
+Arduino,312,284,d09,Keypad,473,17,pin6

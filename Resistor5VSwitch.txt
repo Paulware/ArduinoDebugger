@@ -1,0 +1,13 @@
+Project Components
+Arduino,299,229
+Resistor10000,231,414
+Led,258,3
+MomentaryDepress,517,53
+Project Connections
+Arduino,299,229,5v,Resistor10000,231,414,Left
+Arduino,299,229,5v,Arduino,299,229,5v
+Arduino,299,229,gnd,MomentaryDepress,517,53,Switch Right
+Resistor10000,231,414,Right,Led,258,3,LED +
+Led,258,3,LED -,MomentaryDepress,517,53,Switch Left
+Project Source
+resistor5VSwitch.ino

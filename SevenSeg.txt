@@ -1,0 +1,17 @@
+Project Components
+Arduino,378,205
+Seven Segment,962,89
+MomentaryDepress,658,11
+Project Connections
+Arduino,378,205,d02,Seven Segment,962,89,segment[0]
+Arduino,378,205,d03,Seven Segment,962,89,segment[1]
+Arduino,378,205,d04,Seven Segment,962,89,segment[2]
+Arduino,378,205,d05,Seven Segment,962,89,segment[3]
+Arduino,378,205,d06,Seven Segment,962,89,segment[4]
+Arduino,378,205,d13,Seven Segment,962,89,segment[5]
+Arduino,378,205,d14,Seven Segment,962,89,segment[6]
+Arduino,378,205,gnd,Seven Segment,962,89,gnd
+Arduino,378,205,gnd,MomentaryDepress,658,11,Switch Right
+Arduino,378,205,d10,MomentaryDepress,658,11,Switch Left
+Project Source
+sevenSeg.ino

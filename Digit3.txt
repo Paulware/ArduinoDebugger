@@ -1,0 +1,20 @@
+Project Components
+Arduino,38,134
+Digit3,681,401
+MomentaryDepress,767,13
+Project Connections
+Arduino,38,134,d03,Digit3,681,401,pin11
+Arduino,38,134,d04,Digit3,681,401,pin07
+Arduino,38,134,d05,Digit3,681,401,pin04
+Arduino,38,134,d06,Digit3,681,401,pin02
+Arduino,38,134,d07,Digit3,681,401,pin01
+Arduino,38,134,d08,Digit3,681,401,pin10
+Arduino,38,134,d09,Digit3,681,401,pin05
+Arduino,38,134,d10,Digit3,681,401,pin03
+Arduino,38,134,d11,Digit3,681,401,pin12
+Arduino,38,134,d12,Digit3,681,401,pin09
+Arduino,38,134,d13,Digit3,681,401,pin08
+Arduino,38,134,d02,MomentaryDepress,767,13,Switch Left
+Arduino,38,134,gnd,MomentaryDepress,767,13,Switch Right
+Project Source
+digit3.ino

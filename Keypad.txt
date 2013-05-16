@@ -1,0 +1,14 @@
+Project Components
+Arduino,170,232
+Keypad,407,-6
+Project Connections
+Arduino,170,232,d02,Keypad,407,-6,pin7
+Arduino,170,232,d03,Keypad,407,-6,pin6
+Arduino,170,232,d04,Keypad,407,-6,pin5
+Arduino,170,232,d05,Keypad,407,-6,pin4
+Arduino,170,232,d06,Keypad,407,-6,pin3
+Arduino,170,232,d07,Keypad,407,-6,pin2
+Arduino,170,232,d08,Keypad,407,-6,pin1
+Arduino,170,232,d09,Keypad,407,-6,pin0
+Project Source
+C:\ArduinoSimulator\keypad.ino

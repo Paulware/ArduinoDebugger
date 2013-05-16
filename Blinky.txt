@@ -1,0 +1,10 @@
+Project Components
+Resistor220,699,137
+Arduino,338,232
+Led,562,4
+Project Connections
+Resistor220,699,137,Left,Led,562,4,LED -
+Resistor220,699,137,Right,Arduino,338,232,gnd
+Arduino,338,232,d13,Led,562,4,LED +
+Project Source
+blinky.ino

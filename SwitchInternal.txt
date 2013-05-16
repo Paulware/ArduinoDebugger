@@ -1,0 +1,6 @@
+Project Components
+Arduino,-9,148
+MomentaryDepress,547,27
+Project Connections
+Arduino,-9,148,d02,MomentaryDepress,547,27,Switch Left
+Arduino,-9,148,gnd,MomentaryDepress,547,27,Switch Right
