@@ -13,11 +13,11 @@ LeftChar=1
 Open=1
 Top=0
 [Editors]
-Focused=0
+Focused=55
 Order=0,-1,6,55
 [Editor_0]
 Open=1
-Top=1
+Top=0
 CursorCol=25
 CursorRow=3
 TopLine=3
@@ -392,7 +392,7 @@ CursorRow=1
 TopLine=1
 LeftChar=1
 Open=1
-Top=0
+Top=1
 [Editor_56]
 Open=1
 Top=0

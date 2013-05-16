@@ -36,7 +36,7 @@ Online videos that demonstrate usage:
   [video1](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
   [video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)  
   [video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
-  [video4] video for digit3
+  [video4](http://youtu.be/_W_GPd936jg)
   
 Last Tested 5/5/2013 on Windows OS:
   Windows 8
