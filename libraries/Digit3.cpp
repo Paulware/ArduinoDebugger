@@ -188,20 +188,7 @@ void Digit3::print (char * line)
 {
   int len = strlen (line);
   int index;  
-  
-  /*
-  if (clearTheText)
-  {
-    for (int i=0; i<80; i++)
-    {
-      screen[i] = ' ';
-      col = 0;
-      row = 0;
-    }
-    clearTheText = false;
-  } 
-  */ 
-  
+    
   for (int i=0; i<NUM_DIGITS; i++)
   {
     screen[i] = line[i];
@@ -234,6 +221,10 @@ void Digit3::HandleMouseMove (HWND hWnd, int _x, int _y)
 {
   for (int i=0; i<MAX_DIGIT3_PINS; i++)
     pin[i]->HandleMouseMove (hWnd, _x, _y);
+    
+ for (int i=0; i<NUM_DIGITS; i++)
+    for (int j=0; j<NUM_SEGMENTS; j++)
+      displayedSegments[i][j]->HandleMouseMove (hWnd, _x, _y);
 }
 
 Pin * Digit3::PinActive ()
