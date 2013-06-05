@@ -260,7 +260,7 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
   
   // tidy up and exit the program via the form's upper left corner x 
   
-  if ((Msg==WM_DESTROY)) //  && (hWnd != viewConnectionHandle)) 
+  if ((Msg==WM_DESTROY) && (hWnd != viewConnectionHandle)) 
   {
     UnregisterClass(MYCLASS,BCX_hInstance);
     PostQuitMessage(0);

@@ -1,0 +1,26 @@
+Project Components
+RotaryDip,635,22
+Arduino,234,238
+RotaryDip,450,21
+RotaryDip,237,25
+Project Connections
+RotaryDip,635,22,pin01,Arduino,234,238,d02
+RotaryDip,635,22,pin02,Arduino,234,238,gnd
+RotaryDip,635,22,pin05,Arduino,234,238,gnd
+RotaryDip,635,22,pin04,Arduino,234,238,d03
+RotaryDip,635,22,pin03,Arduino,234,238,d04
+RotaryDip,635,22,pin06,Arduino,234,238,d05
+Arduino,234,238,gnd,RotaryDip,450,21,pin02
+Arduino,234,238,gnd,RotaryDip,450,21,pin05
+Arduino,234,238,d06,RotaryDip,450,21,pin01
+Arduino,234,238,d07,RotaryDip,450,21,pin04
+Arduino,234,238,d08,RotaryDip,450,21,pin03
+Arduino,234,238,d09,RotaryDip,450,21,pin06
+Arduino,234,238,gnd,RotaryDip,237,25,pin02
+Arduino,234,238,gnd,RotaryDip,237,25,pin05
+Arduino,234,238,d10,RotaryDip,237,25,pin01
+Arduino,234,238,d11,RotaryDip,237,25,pin04
+Arduino,234,238,d12,RotaryDip,237,25,pin03
+Arduino,234,238,d13,RotaryDip,237,25,pin06
+Project Source
+C:\ArduinoDebugger\RotaryDip.ino

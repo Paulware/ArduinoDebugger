@@ -15,6 +15,7 @@ Supported Projects/Components
   <li>KeypadDisplay.txt - 4x4 matrix keypad and LCD Display</li>
   <li>LCDDisplay.txt - 4x16 character LCD Display </li>
   <li>SevenSeg.txt - Simple 1 digit seven segment display</li>
+  <li>RotaryDip.txt - 3 x 10 selection Rotary Dip</li>
   </ul>
 
 Free CPP Compiler:  
@@ -37,8 +38,9 @@ Online videos that demonstrate usage:
   [video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)  
   [video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
   [video4](http://youtu.be/_W_GPd936jg)
+  [video5](http://youtube/tbd/RotaryDip)
   
-Last Tested 5/5/2013 on Windows OS:
+Last Tested 6/4/2013 on Windows OS:
   Windows 8
   
 Last Tested with Arduino libraries from version
@@ -58,6 +60,9 @@ projects which are loaded and tested before every release.
 
 Design Notes
 <ul>
+<li>SimUtilities Class<br>
+     Contains utilities to list all connections and set a value on the connection
+</li>
 <li>Pull-up Resistor
 <ul>
   <li>pinMode (pinNumber,INPUT);<li>

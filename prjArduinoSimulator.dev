@@ -1,7 +1,7 @@
 [Project]
 FileName=prjArduinoSimulator.dev
 Name=prjArduinoSimulator
-UnitCount=59
+UnitCount=61
 Type=0
 Ver=2
 ObjFiles=
@@ -632,6 +632,26 @@ BuildCmd=
 
 [Unit58]
 FileName=libraries\SimUtilities.cpp
+CompileCpp=1
+Folder=prjArduinoSimulator
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit60]
+FileName=libraries\RotaryDip.cpp
+CompileCpp=1
+Folder=prjArduinoSimulator
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit61]
+FileName=libraries\RotaryDip.h
 CompileCpp=1
 Folder=prjArduinoSimulator
 Compile=1

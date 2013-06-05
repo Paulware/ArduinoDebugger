@@ -1,5 +1,6 @@
 #include "ConnectedComponent.h"
 #include "HighLevelMenu.h"
+#include "SimUtilities.h"
 ConnectedComponent::ConnectedComponent(int _x, int _y, Component * _diagram):Component()
 {
   x = _x;
@@ -8,6 +9,7 @@ ConnectedComponent::ConnectedComponent(int _x, int _y, Component * _diagram):Com
     connections[i] = 0;
   numConnections = 0;
   diagram = _diagram; // Save the parent diagram
+  numTempConnections = 0;
 }
 
 ConnectedComponent::~ConnectedComponent()
@@ -112,6 +114,44 @@ void ConnectedComponent::Init (HWND _windowHandle, HINSTANCE _g_hInst, char * re
   // TODO: Call Init for the connection or maybe do this when created
 }
 
+void ConnectedComponent::AddTempConnector ( Pin * pin1, Pin * pin2)
+{
+  int value;
+  int resistance;
+  Connection * connection;
+  // Create a new "virtual" connection
+  connection = new Connection (pin1, pin2);  // pin01 and pin02 are connected
+  connections[numConnections++] = connection; 	
+  HighLevelMenu::Instance()->BestValue(pin1,pin2,value,resistance);	
+  SimUtilities::Instance()->WriteValue (pin1,value,resistance);
+  numTempConnections++;
+}
+
+void ConnectedComponent::ClearTemporaryConnections()
+{
+  Connection * connection;
+  Pin * pin1;
+  Pin * pin2;
+  int index = numConnections - 1;
+  HighLevelMenu * highLevelMenu = HighLevelMenu::Instance();
+  if (numTempConnections)
+  {
+  	for (int i=0; i<numTempConnections; i++)
+  	{
+  	  connection = connections[index];
+  	  pin1 = connection->pin1;
+  	  pin2 = connection->pin2;
+  	  connections[index]=0;
+  	  delete (connection);
+  	  highLevelMenu->ResetConnectionPins (pin1);	
+  	  highLevelMenu->ResetConnectionPins (pin2);	
+  	  index--;
+  	  numConnections--;
+  	}
+  }
+  numTempConnections = 0;
+}
+
 
 void ConnectedComponent::Connect (Pin * pin1, Pin * pin2)
 {
@@ -124,15 +164,27 @@ void ConnectedComponent::Connect (Pin * pin1, Pin * pin2)
   pin2->Select (false);
   pin1->SetConnection (connections[numConnections]);
   pin2->SetConnection (connections[numConnections++]); 
-
+  
+  if (pin1->constValue.value != -1)
+  {
+  	pin2->constValue.value = pin1->constValue.value;
+  	pin2->constValue.resistance = pin1->constValue.resistance;
+  }
+  else if (pin2->constValue.value != -1)
+  {
+  	pin1->constValue.value = pin2->constValue.value;
+  	pin1->constValue.resistance = pin2->constValue.resistance;
+  }
   HighLevelMenu::Instance()->BestValue(pin1,pin2,value,resistance);	
-  HighLevelMenu::Instance()->WriteValue (pin1,value,resistance,false);
+  SimUtilities::Instance()->WriteValue (pin1,value,resistance);
 }
 
 void ConnectedComponent::SaveConnections (FILE * fp)
 {
   Connection * connection;
   int index = 0;
+  
+  ClearTemporaryConnections();
   
   while (connection = connections[index++])
   	connection ->SaveConnection (fp);

@@ -10,6 +10,7 @@
 #include "Pot.h"
 #include "Connection.h"
 #include "Digit3.h"
+#include "RotaryDip.h"
 #include "SimUtilities.h"
 // #include <stdio.h>
 #include <Commdlg.h>
@@ -37,6 +38,7 @@ HighLevelMenu::HighLevelMenu(ViewConnections * _viewConnections):Component()
   ComponentNames.push_back ("Resistor220");
   ComponentNames.push_back ("Pot");
   ComponentNames.push_back ("Digit3");
+  ComponentNames.push_back ("RotaryDip");
   timerCount = 0;
   strcpy ( sourceFilename,"");  
 }
@@ -68,6 +70,7 @@ void HighLevelMenu::ShiftOutConnection (Connection * connection)
   int index = 0;
   ConnectedComponent * component = 0;
   ConnectedComponent * comp;
+  SimUtilities * simUtilities = SimUtilities::Instance();
   
   while (comp = components[index++])
   {
@@ -103,15 +106,15 @@ void HighLevelMenu::ShiftOutConnection (Connection * connection)
     if (conn = FindConnection (pin1))
     {
       ResetConnectionPins(pin1);
-      BestValue(conn->pin1,conn->pin2,value,resistance);	
-      WriteValue(conn->pin1,value,resistance,false);
+      BestValue(conn->pin1,conn->pin2,value,resistance);
+      simUtilities->WriteValue(conn->pin1, value, resistance); // Check for constant value?
     }
     
     if (conn = FindConnection (pin2))
     {
       ResetConnectionPins(pin2);
       BestValue(conn->pin1,conn->pin2,value,resistance);	
-      WriteValue(conn->pin1,value,resistance,false);
+      simUtilities->WriteValue(conn->pin1, value, resistance); // Check for constant value?
     }
     delete (connection);  
   }
@@ -188,73 +191,6 @@ int HighLevelMenu::DigitalRead(int pin)
     
   return value; 	
 }
-
-/*
-   Given a connection with 2 pins and differring pin values,
-   decide which values should propogate further along in the system. 
-*/
-void HighLevelMenu::Referee (Pin * pin1, Pin * pin2, int value, int resistance)
-{
-  int value1 = pin1->value.value;
-  int resistance1 = pin1->value.resistance;
-  int value2 = pin2->value.value;
-  int resistance2 = pin2->value.resistance;
-  if ((value1 != value2) || (value1 != value))
-    if (value1 == -1)
-    {
-      pin1->value.value = value;
-      pin1->value.resistance = resistance;
-      WriteValue (pin2, value, resistance, false);
-    }
-    else if (value2 == -1)
-    {
-      pin2->value.value = value;
-	  pin2->value.resistance = resistance;
-	  WriteValue (pin1, value, resistance,false);	
-    }
-    else if (resistance1 == -1)
-    {
-      pin1->value.value = value;
-      pin1->value.resistance = resistance;
-      WriteValue (pin2, value, resistance, false);  	
-    }
-    else if (resistance2 == -1)
-    {
-      pin2->value.value = value;
-	  pin2->value.resistance = resistance;
-	  WriteValue (pin1, value, resistance,false);      
-    }
-    // Value 1 and value2 are set (which is better?)
-    else if (resistance < resistance2)
-    {
-      pin2->value.value = value;
-	  pin2->value.resistance = resistance;
-	  WriteValue (pin1, value, resistance, false);
-    }
-    else if (resistance < resistance1)
-    {
-      pin1->value.value = value;
-	  pin1->value.resistance = resistance;
-	  WriteValue (pin2, value, resistance, false);
-    }
-    else if (value1 != value)
-    {
-      pin1->value.value = value;
-	  pin1->value.resistance = resistance;
-	  WriteValue (pin2, value, resistance, false);
-    }
-    else if (value2 != value)
-    {
-      pin2->value.value = value;
-	  pin2->value.resistance = resistance;
-	  WriteValue (pin1, value, resistance, false);
-    }
-    else
-    {
-  	  value1 = 0;
-    }
-}
-
 void HighLevelMenu::ResetConnectionPins (Pin * pin)
 {
   ConnectedComponent * component;
@@ -379,63 +315,10 @@ void HighLevelMenu::BestValue (Pin * pin1, Pin * pin2, int & value, int & resist
   }
 }
 
-/*
-  Write value to the designated pin and all connected pins 
-*/
-void HighLevelMenu::WriteValue (Pin * pin, int value, int resistance, bool constantValue)
-{
-  ConnectedComponent * component;
-  Connection * connection;
-  char * n = pin->name;
-  Pin * pin1;
-  Pin * pin2;
-  char * name1;
-  char * name2;
-  char * tName;
-  
-  int index = 0;
-  int connectionIndex;
-  int numConnections;
-  bool found = false;
-  // For all the components on the diagram
-  while (component = components[index++])
-  {
-  	tName = &component->componentType[0];
-  	numConnections = component->numConnections;
-  	
-  	// For all the connections this component has
-  	connectionIndex = 0;
-
-  	while ( connection = component->connections[connectionIndex])
-  	{
-  	  if (connectionIndex >= numConnections)
-  	   return; // Error
-  	  pin1 = connection->pin1;
-  	  if (pin1 == (Pin *)0xbaadf00dbaadf00d)
-  	    return; // Error
-  	  name1 = pin1->name;
-  	  pin2 = connection->pin2;
-  	  if (pin2 == (Pin *)0xbaadf00dbaadf00d)
-  	    return; // Error
-  	  name2 = pin2->name;
-  	  if ((pin1 == pin) || (pin2 == pin))
-  	  { 
-  	    found = true;
-  	    Referee (pin1,pin2,value,resistance);
-      }
-      connectionIndex++;
-  	}
-  }
-  if (!found)
-    found = true; // Never found he pin...ERROR!!!
-  Refresh();
-}
-
 void HighLevelMenu::DigitalWrite(int pin, int value)
 {
   ArduinoComponent * arduino;
   int resistance;
-  SimUtilities * simUtilities = SimUtilities::Instance();
   
   if (arduino = (ArduinoComponent *)FindComponent ( "Arduino"))
   {
@@ -443,7 +326,7 @@ void HighLevelMenu::DigitalWrite(int pin, int value)
 	ResetConnectionPins (arduino->d[pin]);
 	
 	// Write to all related connections
-    simUtilities->WriteValue (arduino->d[pin], value, resistance);
+    SimUtilities::Instance()->WriteValue (arduino->d[pin], value, resistance);
   }
 }
 
@@ -493,6 +376,7 @@ void HighLevelMenu::AddMenu ()
   AppendMenu (hAddMenu, MF_STRING, ADD4X4KEYPAD,       "4x4 Keypad");
   AppendMenu (hAddMenu, MF_STRING, ADDARDUINO,         "Arduino");
   AppendMenu (hAddMenu, MF_STRING, ADDDIGIT3,          "3 Digit Display");
+  AppendMenu (hAddMenu, MF_STRING, ADDROTARYDIP,       "Rotary Dip Switch");
     
   hResistorMenu = CreatePopupMenu();
   InsertMenu (hAddMenu, 0,         MF_POPUP|MF_BYPOSITION, (UINT_PTR)hResistorMenu, "Resistor");
@@ -920,6 +804,11 @@ void HighLevelMenu::AddComponent (int index, char * typeName, int x, int y)
 	  component->Init (windowHandle, g_hInst, "DIGIT3");
 	  components[numComponents++] = component;
 	  break;        
+	case 10:	  // Add the Rotary Dip 
+	  component = new RotaryDip(x,y, this);
+	  component->Init (windowHandle, g_hInst, "ROTARYDIP0");
+	  components[numComponents++] = component;
+	  break;        
       /*
         arduino = (ArduinoComponent *)FindComponent ("Arduino");
         arduino->Connect (arduino->d[2], sevenSegment->segment[0], g_hInst);
@@ -1277,6 +1166,10 @@ void HighLevelMenu::HandleMenu (int command)
     
     case ADDDIGIT3:
       AddComponent (9,"",0,0);
+    break;
+    
+    case ADDROTARYDIP:
+      AddComponent (10,"",0,0);
     break;
     
     case ADDRESISTOR10K:

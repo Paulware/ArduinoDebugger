@@ -89,17 +89,12 @@ int Pin::GetResistance()
 // Check constValue, actual value or connected value
 int Pin::GetValue ()
 { 
+  int val = value.value;
+   
+  /*   
   char * n = name; // For debug
-  int val = -1;
 
-  if (constValue.value != -1)
-  {
-    if (constValue.resistance <= value.resistance)
-      val = constValue.value;
-    else if (value.value != -1)
-	  val = value.value; 
-  }
-  else if (value.value != -1)
+  if (value.value != -1)
   {
     if (value.resistance <= constValue.resistance)
       val = value.value;
@@ -108,6 +103,7 @@ int Pin::GetValue ()
   }
   if (val == 1)
     val = 1;  
+  */
   return val;
 }
 

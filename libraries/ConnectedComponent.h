@@ -32,7 +32,11 @@ class ConnectedComponent:public Component
     Component * diagram;
 	void Refresh();
 	virtual void WriteValue (Pin * pin, int value , int resistance) {};
+    void AddTempConnector ( Pin * pin1, Pin * pin2);
+	void ClearTemporaryConnections();
 	void DeleteConnections();
+    private:
+	  int numTempConnections;	
 };
 #endif
 

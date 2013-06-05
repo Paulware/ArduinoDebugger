@@ -234,7 +234,6 @@ void KeypadDevice::HandleMouseDown (HWND hWnd, int _x, int _y)
   char * name2;
   int value;
   int resistance;
-  SimUtilities * simUtilities = SimUtilities::Instance();
   int numConns;
 
   for (int i=0; i<MAX_KEYPAD_PINS; i++)

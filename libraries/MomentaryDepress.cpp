@@ -1,5 +1,6 @@
 #include "MomentaryDepress.h"
 #include "HighLevelMenu.h"
+#include "SimUtilities.h"
 MomentaryDepress::MomentaryDepress(int _x, int _y, Component * _diagram):ConnectedComponent(_x,_y,_diagram)
 { 
   input = new Pin(this);
@@ -89,6 +90,7 @@ void MomentaryDepress::HandleMouseDown (HWND hWnd, int _x, int _y)
   Connection * connection;
   Pin * pin1;
   Pin * pin2;
+  SimUtilities * simUtilities = SimUtilities::Instance();
   
   if (input->isActive) // we are over the ground spot     
     input->Select(!input->isSelected);
@@ -103,7 +105,7 @@ void MomentaryDepress::HandleMouseDown (HWND hWnd, int _x, int _y)
     pin1 = connection->pin1;
     pin2 = connection->pin2;
     HighLevelMenu::Instance()->BestValue(pin1,pin2,value,resistance);	
-    HighLevelMenu::Instance()->WriteValue (pin1,value,resistance,false);
+    simUtilities->WriteValue(pin1, value, resistance); // Check for constant value?
   }  
   Refresh();
 }

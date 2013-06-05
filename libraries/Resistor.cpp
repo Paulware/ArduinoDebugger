@@ -1,5 +1,6 @@
 #include "Resistor.h"
 #include "HighLevelMenu.h"
+#include "SimUtilities.h"
 Resistor::Resistor(int _x, int _y, int _resistance, Component * _diagram):ConnectedComponent(_x,_y,_diagram)
 { 
   input = new Pin(this);
@@ -47,7 +48,7 @@ void Resistor::IsConnected (Pin * localPin, Pin * remotePin)
   	input->value.value = remotePin->constValue.value;
   	connection = highLevelMenu->FindConnection (input);
     HighLevelMenu::Instance()->BestValue(input,output,value,resistance);	
-    HighLevelMenu::Instance()->WriteValue (input,value,resistance,false);
+    SimUtilities::Instance()->WriteValue (input,value,resistance);
   }  
 }
 
@@ -106,7 +107,7 @@ void Resistor::HandleMouseDown (HWND hWnd, int _x, int _y)
   else
   {
     HighLevelMenu::Instance()->BestValue(input,output,value,resistance);	
-    HighLevelMenu::Instance()->WriteValue (input,value,resistance,false);  	
+    SimUtilities::Instance()->WriteValue (input,value,resistance);  	
   }  
 }
 

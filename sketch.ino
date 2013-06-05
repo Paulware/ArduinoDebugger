@@ -1,27 +1,24 @@
-#include "ThreeBySevenSegment.h"
-ThreeBySevenSegment seg (3,4,5,6,7,8,9,10,11,12,13);
+#include <SevenSegment.h>
+SevenSegment sevenSegment (2,3,4,5,6,13,14);
 void setup()
-{
+{  
   Serial.begin (115200);
-  Serial.println ( "Open Digit3.txt project" );
-  pinMode (2,INPUT);
-  digitalWrite(2,1); // Internal pull-up resistor on.
+  Serial.println ( "Open SevenSeg.txt project" );
+  pinMode (10, INPUT);
+  digitalWrite (10,1); // Pull-up resistor on
 }
-int count = 0;
-bool primed = false;
+int buttonCount = 0;
 void loop ()
-{ 
-  if (digitalRead (2) == 0)
+{
+  static int last10 = 0;
+  int d10;
+  d10 = digitalRead(10);
+  if (!d10 && last10)
   {
-  	primed = true;
+  	buttonCount++;
+  	Serial.print ( "Detected button press ");
+  	Serial.println ( buttonCount );
+    sevenSegment.print(buttonCount );  	
   }
-  if (primed)
-  {
-    if (digitalRead(2)==1)
-    {
-  	  primed = false;  	
-  	  seg.lightCharacter (count % 3,'0'+count);
-  	  count++;
-    }
-  }
+  last10 = d10;
 }

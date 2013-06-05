@@ -11,4 +11,4 @@ Arduino,170,232,d07,Keypad,407,-6,pin2
 Arduino,170,232,d08,Keypad,407,-6,pin1
 Arduino,170,232,d09,Keypad,407,-6,pin0
 Project Source
-C:\ArduinoSimulator\keypad.ino
+keypad.ino

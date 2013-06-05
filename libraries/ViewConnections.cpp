@@ -2,6 +2,7 @@
 #include "Pin.h"
 #include "ArduinoComponent.h"
 #include "HighLevelMenu.h"
+#include "SimUtilities.h"
 
 HWND viewConnectionHandle=0; // Handle to this classe' window
 
@@ -38,26 +39,15 @@ void ViewConnections::Paint(HWND hWnd)
    				   			      "NC", "NC"};			   			      
   */   				   			      
   int index = 0;   				   			      
-  PaintStart ();
-
-  while (connection = arduino->connections[index])
-  {
-  	name = connection->pin1->name;
-    TextOut (hdc,  10, y,name,strlen(name));
-    
-    name = connection->pin2->name;
-    TextOut (hdc, 100, y,name,strlen(name));
-    
-    itoa (connection->pin1->GetValue(), value, 10);
-    TextOut (hdc, 190, y, value, strlen (value));
-    
-    itoa (connection->pin2->GetValue(), value, 10);
-    TextOut (hdc, 280, y, value, strlen (value));
-    y += 20;
-    index++;
-  }
+  // PaintStart ();
+  hdc = BeginPaint (hWnd, &ps);
+  hdcMemory = CreateCompatibleDC (hdc);
   
-  //PaintEnd ();
+  SimUtilities::Instance()->MakeConnectionList();
+  SimUtilities::Instance()->ViewConnections(hdc);  
+  
+  DeleteDC (hdcMemory);    
+  EndPaint (hWnd, &ps);
 }
 
 HWND ViewConnections::DrawWindow (HINSTANCE hInst)

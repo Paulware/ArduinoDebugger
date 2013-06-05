@@ -38,16 +38,13 @@ class HighLevelMenu:public Component
     void lcdPrint ( char * ch);
     void lcdPrint ( int value);   
     void lcdClear ();
-    // void Reset ();
     Pin * FindOtherPin ( Pin *);
     void TroubleshootPins ();
     int timerCount;
     Pin * GetNextPin ( Pin * pin);
     Connection * FindConnection ( Pin * pin);
-    void WriteValue (Pin * pin, int value, int resistance, bool constantValue);
     void Refresh();
     bool readingProject;
-	void Referee ( Pin * pin1, Pin * pin2, int value, int resistance);	
 	void BestValue ( Pin * pin1, Pin * pin2, int & value, int & resistance);
     void ResetConnectionPins (Pin * pin);
     

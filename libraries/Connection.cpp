@@ -9,6 +9,13 @@ Connection::Connection(Pin * _pin1, Pin * _pin2)
   line = new Line (_pin1->x,_pin1->y,_pin2->x,_pin2->y);
 }
 
+Connection::~Connection()
+{
+  if (line)
+    delete (line);
+}
+
+
 Pin * Connection::OtherPin (Pin * pin)
 {
   char * name1 = pin1->name;
@@ -45,12 +52,6 @@ void Connection::Move()
   x2 = pin2->x;
   y2 = pin2->y;
   line->MoveTo (x1, y1, x2, y2);
-}
-
-Connection::~Connection()
-{
-  if (line)
-    delete (line);
 }
 
 void Connection::SaveConnection(FILE * fp)

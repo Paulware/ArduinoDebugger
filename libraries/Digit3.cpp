@@ -2,6 +2,7 @@
 
 Digit3::Digit3(int _x, int _y, Component * _diagram): ConnectedComponent(_x,_y,_diagram)
 { 
+  // TODO: Isn't the 12 incorrect?  The size of the string is 5 + null character or 6 characters
   char names[][12] = {"pin01", "pin02", "pin03", "pin04", "pin05", "pin06",
                       "pin07", "pin08", "pin09", "pin10", "pin11", "pin12"};
   offOn = false;
