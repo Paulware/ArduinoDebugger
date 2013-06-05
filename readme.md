@@ -38,7 +38,7 @@ Online videos that demonstrate usage:
   [video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)  
   [video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
   [video4](http://youtu.be/_W_GPd936jg)
-  [video5](http://youtube/tbd/RotaryDip)
+  [Rotary Dip](http://youtu.be/vOSc0lCG9bM)
   
 Last Tested 6/4/2013 on Windows OS:
   Windows 8
