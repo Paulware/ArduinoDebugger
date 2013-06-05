@@ -37,8 +37,8 @@ Online videos that demonstrate usage:
   [video1](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
   [video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)  
   [video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
-  [video4](http://youtu.be/_W_GPd936jg)
-  [Rotary Dip](http://youtu.be/vOSc0lCG9bM)
+  [3 Digit 7 segment display](http://youtu.be/_W_GPd936jg)
+  [Rotary Dip](http://www.youtube.com/watch?v=vOSc0lCG9bM&feature=youtu.be)
   
 Last Tested 6/4/2013 on Windows OS:
   Windows 8
