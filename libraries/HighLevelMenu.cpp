@@ -17,6 +17,334 @@
 #include <Commdlg.h>
 
 static HighLevelMenu * highLevelMenu;
+
+class OpenFileDialog {
+  public: 
+    OpenFileDialog (){};
+	  
+    void Open (const char * filter)
+    {
+      // open a file name
+      ZeroMemory( &ofn , sizeof( ofn));
+      ofn.lStructSize = sizeof ( ofn );
+      ofn.hwndOwner = NULL  ;   
+	  ofn.lpstrFile = szFile ;
+   	  ofn.lpstrFile[0] = '\0';
+	  ofn.nMaxFile = sizeof( szFile );
+	  // ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+	  //ofn.lpstrFilter = "Text\0*.TXT\0";
+	  ofn.lpstrFilter=filter;
+	  ofn.nFilterIndex =1;
+	  ofn.lpstrFileTitle = NULL ;
+	  ofn.nMaxFileTitle = 0 ;
+	  ofn.lpstrInitialDir=NULL ;
+	  ofn.Flags = OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST ;
+	  GetOpenFileName( &ofn );
+	  // Now simpley display the file name 
+	  // MessageBox ( NULL , ofn.lpstrFile , "File Name" , MB_OK);
+	};
+	  
+	void Save (const char * filter)
+	{
+      // open a file name
+	  ZeroMemory( &ofn , sizeof( ofn));
+	  ofn.lStructSize = sizeof ( ofn );
+      ofn.hwndOwner = NULL  ;   
+	  ofn.lpstrFile = szFile ;
+   	  ofn.lpstrFile[0] = '\0';
+	  ofn.nMaxFile = sizeof( szFile );
+	  ofn.lpstrFilter=filter;
+	  ofn.nFilterIndex =1;
+	  ofn.lpstrFileTitle = NULL ;
+	  ofn.nMaxFileTitle = 0 ;
+	  ofn.lpstrInitialDir=NULL ;
+	  ofn.Flags = OFN_PATHMUSTEXIST;
+	  GetSaveFileName( &ofn );
+	}
+	char * Filename ()
+	{
+	  return &szFile[0];
+	}
+	
+	private:
+  	  OPENFILENAME ofn ;
+  	  char szFile[100] ;
+};
+
+
+class String{
+   private:
+      char * pString;
+   public:
+      String(){ pString = 0;}
+      
+      char * Me () { 
+        return pString;
+      }
+      
+      String( char * s )
+	  {
+	    int len = strlen (s);
+		pString = (char *)calloc (len +1, sizeof (char));
+		strcpy (pString, s); 
+	  }
+      void display() // const
+	  { 
+	    MessageBox (0,pString,"show",0); 
+	  }
+	  
+	  int Len () {
+	  	return strlen(pString);
+	  }
+      //void getstr(){ cin.get(str, SZ); }
+      bool operator == (String str) const{
+      	bool match = false;
+      	if (!strcmp (pString, str.pString))
+      	  match = true;
+      	return match;
+      }
+      
+      String& operator+(char ch)
+      {
+      	char * append;
+    	append = (char *)calloc (Len() + 1 + 1, 1);
+      	strcpy (append,pString);
+      	append[Len()] = ch; // Append the character
+      	delete (pString);
+      	pString = append;      	
+      }
+      
+      String& operator+(String &Str)
+      {
+      	char * append;
+      	if (Str.Len())
+      	{
+      	  append = (char *)calloc (Len() + Str.Len() + 1, 1);
+      	  strcpy (append,pString);
+      	  strcpy (&append[Len()],Str.Me());
+      	  delete (pString);
+      	  pString = append;
+      	}      	
+      }
+      
+      String& operator=(const String& Str) 
+	  {
+	  	int len;
+        if(this != &Str)
+        {
+		  len = strlen (Str.pString);
+          if (pString)
+            delete (pString);
+          pString = (char *)calloc (len+1, sizeof (char));
+          //std::
+		  strcpy (pString, Str.pString);          
+        }
+
+      return *this;
+      }    
+   };
+
+//String * temp = new String ( "Hello");
+//int len = temp->Len();
+const int MAXCHARS = 25;
+typedef char LineType[MAXCHARS];
+struct LineInfo
+{
+  LineType component1;
+  int x1;
+  int y1;
+  LineType port1;
+  
+  LineType component2;
+  int x2;
+  int y2;
+  LineType port2;
+  bool newData;
+  bool readingComponent;
+  bool readingSource;
+};
+
+LineInfo DefaultLine ()
+{
+  LineInfo line;
+  strcpy (line.component1,"");
+  line.x1 = 0;
+  line.y1 = 0;
+  strcpy (line.port1,"");
+  strcpy (line.component2,"");
+  line.x2 = 0;
+  line.y2 = 0;
+  strcpy (line.port2,"");
+  line.newData = false;
+  line.readingComponent = false;
+  line.readingSource = false;
+  return line;
+}
+
+void GetLine ( FILE * fp, char * line, int lineLength)
+{
+  char ch = 0;	
+  int len = 0;
+  line[0]=0;
+  while (!feof(fp) && (ch != 13) && (ch != 10))
+  {
+  	ch = fgetc (fp);
+  	if ((ch == 13) || (ch == 10) || (ch == -1))
+  	  break;
+	if ((len + 1) < lineLength)
+  	{
+  	  line[len++]=ch;
+  	  line[len]=0;
+    }
+  }
+}
+
+void GetToken ( FILE * fp, char * line)
+{
+  char ch = 0;	
+  int len = 0;
+  line[0]=0;
+  while (!feof(fp))
+  {
+  	ch = fgetc (fp);
+  	if ((ch == ',') || (ch == '\n') || (ch == -1))
+  	  break;
+  	else
+  	{
+  	  line[len++]=ch;
+  	  line[len]=0;
+    }
+  }
+}
+
+void ReadLine (FILE * fp, LineInfo & line, bool & readingComponents, bool & readingSource)
+{
+  char token[MAXCHARS];
+  char filename[255];
+  GetToken (fp,&token[0]);
+  line = DefaultLine ();
+  line.readingComponent = readingComponents;
+  line.readingSource = readingSource;
+  if (strlen(token))
+  {
+    line.newData = true;  
+    if (!strcmp(token,"Project Components")) // First line of the file
+    {
+      readingComponents = true;
+      readingSource = false;
+    }
+    else if (!strcmp(token,"Project Connections"))	
+      readingComponents = false;
+    else if (!strcmp(token,"Project Source"))
+    {
+      readingSource = true;
+      line.readingSource = true;
+    }
+    else if (readingSource)
+    {
+    }
+    else if (readingComponents)
+    { 
+      strcpy (line.component1, token);
+      GetToken (fp,&token[0]); // x
+      line.x1 = atoi (&token[0]);
+      GetToken (fp,&token[0]); // y
+      line.y1 = atoi (&token[0]);	
+    }
+    else // Reading Connections
+    {
+      strcpy ( line.component1, token);
+      GetToken (fp,&token[0]); // x
+      line.x1 = atoi (&token[0]);
+      GetToken (fp,&token[0]); // y
+      line.y1 = atoi (&token[0]);
+      GetToken (fp,&token[0]); // portName
+      strcpy (line.port1, token);
+      GetToken (fp,&token[0]); // Component
+      strcpy (line.component2, token); 
+      GetToken (fp,&token[0]); // x
+      line.x2 = atoi(&token[0]);
+      GetToken (fp,&token[0]); // y
+      line.y2 = atoi(&token[0]);
+      GetToken (fp,&token[0]); // portName
+      strcpy (line.port2, token); 
+    }
+  }
+}
+
+bool FilesDifferent ( char * filename1, char * filename2)
+{
+  bool different = false;
+  FILE * file1;
+  FILE * file2;
+  
+  char line1 [255];
+  char line2 [255];
+ 
+  file1 = fopen (filename1,"r");
+  file2 = fopen (filename2,"r");
+  
+  while (!feof(file1) && !feof(file2))
+  {
+    GetLine (file1, line1, sizeof (line1));
+    GetLine (file2, line2, sizeof (line2));
+    if (strcmp (line1,line2)) // Lines are different
+    {
+      different = true;
+      break;
+    } 
+  }
+  
+  fclose(file1);
+  fclose(file2);
+  
+  return different;
+}
+
+
+
+void FPrintF ( FILE * outFile, char * line)
+{
+  int len = strlen (line);	
+  char oneCh[] = " ";
+  char ch;
+  
+  for (int i=0;i<len; i++)
+  {
+  	ch = line[i];
+  	oneCh[0] = ch;
+    if (ch == '%')
+      fprintf (outFile, "%%");
+    else if (ch == '\\')  
+      fprintf (outFile, "\\");
+    else 
+      fprintf (outFile, oneCh);
+  }
+}
+
+void CopyFile ( char * inFilename, char * outFilename)
+{
+ char sourceLine[255];
+ FILE * outFile;
+ FILE * inFile;
+ 
+ inFile = fopen (inFilename,"r");
+ outFile = fopen (outFilename, "w"); // Open sketch filename for output
+	   	
+ while (!feof(inFile))
+ {
+   GetLine (inFile, sourceLine, sizeof (sourceLine));
+   if (strlen (sourceLine))
+   	 FPrintF (outFile, sourceLine);
+   	 
+   fprintf (outFile, "\n");	
+ }
+ fclose(outFile);
+ fclose(inFile);
+}
+
+/*****************************  Class Procedures **********************************/
+
 HighLevelMenu::HighLevelMenu(ViewConnections * _viewConnections):Component()
 { 
   numComponents = 0; 
@@ -327,7 +655,7 @@ void HighLevelMenu::AddMenu ()
     
   hProjectMenu = CreatePopupMenu();
   AppendMenu (hProjectMenu, MF_STRING, NEWPROJECT, "New Project");
-  AppendMenu (hProjectMenu, MF_STRING, READPROJECT, "Open Project");
+  AppendMenu (hProjectMenu, MF_STRING, READPROJECT, "Open Project"); // OpenProject ReadProject
   AppendMenu (hProjectMenu, MF_STRING, SAVE, "Save");
   AppendMenu (hProjectMenu, MF_STRING, SAVEAS, "Save As");
   InsertMenu (MainMenu, 0,         MF_POPUP|MF_BYPOSITION, (UINT_PTR)hProjectMenu, "Project");
@@ -340,260 +668,98 @@ void HighLevelMenu::AddMenu ()
   (void) SetMenu(windowHandle,MainMenu);
 }
 
-
-void GetLine ( FILE * fp, char * line, int lineLength)
+void HighLevelMenu::HandleMenu (int command)
 {
-  char ch = 0;	
-  int len = 0;
-  line[0]=0;
-  while (!feof(fp) && (ch != 13) && (ch != 10))
+  OpenFileDialog ofd;		
+  switch (command)
   {
-  	ch = fgetc (fp);
-  	if ((ch == 13) || (ch == 10) || (ch == -1))
-  	  break;
-	if ((len + 1) < lineLength)
-  	{
-  	  line[len++]=ch;
-  	  line[len]=0;
-    }
-  }
-}
-
-void GetToken ( FILE * fp, char * line)
-{
-  char ch = 0;	
-  int len = 0;
-  line[0]=0;
-  while (!feof(fp))
-  {
-  	ch = fgetc (fp);
-  	if ((ch == ',') || (ch == '\n') || (ch == -1))
-  	  break;
-  	else
-  	{
-  	  line[len++]=ch;
-  	  line[len]=0;
-    }
-  }
-}
-
-class OpenFileDialog {
-  public: 
-    OpenFileDialog (){};
+    case ADDLED: 
+      AddComponent (1,"",0,0);
+    break;
+    
+    case ADDMOMENTARYSWITCH:
+      AddComponent (2,"",0,0);
+    break;   
+	 
+    case ADDSEVENSEGMENT:
+      AddComponent (6,"",0,0);
+    break;  
+    
+    case ADDLCDDISPLAY:
+      AddComponent (4,"",0,0);
+    break;
+    
+    case ADD4X4KEYPAD:
+      AddComponent (5,"",0,0);
+    break;
 	  
-    void Open (const char * filter)
-    {
-      // open a file name
-      ZeroMemory( &ofn , sizeof( ofn));
-      ofn.lStructSize = sizeof ( ofn );
-      ofn.hwndOwner = NULL  ;   
-	  ofn.lpstrFile = szFile ;
-   	  ofn.lpstrFile[0] = '\0';
-	  ofn.nMaxFile = sizeof( szFile );
-	  // ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-	  //ofn.lpstrFilter = "Text\0*.TXT\0";
-	  ofn.lpstrFilter=filter;
-	  ofn.nFilterIndex =1;
-	  ofn.lpstrFileTitle = NULL ;
-	  ofn.nMaxFileTitle = 0 ;
-	  ofn.lpstrInitialDir=NULL ;
-	  ofn.Flags = OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST ;
-	  GetOpenFileName( &ofn );
-	  // Now simpley display the file name 
-	  // MessageBox ( NULL , ofn.lpstrFile , "File Name" , MB_OK);
-	};
-	  
-	void Save (const char * filter)
-	{
-      // open a file name
-	  ZeroMemory( &ofn , sizeof( ofn));
-	  ofn.lStructSize = sizeof ( ofn );
-      ofn.hwndOwner = NULL  ;   
-	  ofn.lpstrFile = szFile ;
-   	  ofn.lpstrFile[0] = '\0';
-	  ofn.nMaxFile = sizeof( szFile );
-	  ofn.lpstrFilter=filter;
-	  ofn.nFilterIndex =1;
-	  ofn.lpstrFileTitle = NULL ;
-	  ofn.nMaxFileTitle = 0 ;
-	  ofn.lpstrInitialDir=NULL ;
-	  ofn.Flags = OFN_PATHMUSTEXIST;
-	  GetSaveFileName( &ofn );
-	}
-	char * Filename ()
-	{
-	  return &szFile[0];
-	}
+    case ADDARDUINO:
+      AddComponent (0,"",0,0);
+    break;
+    
+    case ADDDIGIT3:
+      AddComponent (9,"",0,0);
+    break;
+    
+    case ADDROTARYDIP:
+      AddComponent (10,"",0,0);
+    break;
+    
+    case ADDRESISTOR10K:
+      AddComponent (3,"",0,0);
+    break;
+    
+    case ADDRESISTOR220:
+      AddComponent (7,"",0,0);
+    break;
+    
+    case ADDPOT:
+      AddComponent (8,"",0,0);
+    break;
+    
+    case ADDSHIFTREGISTER:
+      AddComponent (11,"",0,0);
+    break;
+    
+    case ADDMULTIPLEXER:
+      AddComponent (12,"",0,0);
+    break;
+    
+	case SAVEAS:
+	  ofd.Save("Text\0*.TXT");		
+	  if (strlen (ofd.Filename()))
+	    SaveProject (ofd.Filename());
+	break;   	
+    
+    case VIEWARDUINOCONNECTIONS:
+      viewConnections->DrawWindow (g_hInst);
+    break; 
 	
-	private:
-  	  OPENFILENAME ofn ;
-  	  char szFile[100] ;
-};
-
-
-class String{
-   private:
-      char * pString;
-   public:
-      String(){ pString = 0;}
-      
-      char * Me () { 
-        return pString;
-      }
-      
-      String( char * s )
-	  {
-	    int len = strlen (s);
-		pString = (char *)calloc (len +1, sizeof (char));
-		strcpy (pString, s); 
-	  }
-      void display() // const
-	  { 
-	    MessageBox (0,pString,"show",0); 
-	  }
-	  
-	  int Len () {
-	  	return strlen(pString);
-	  }
-      //void getstr(){ cin.get(str, SZ); }
-      bool operator == (String str) const{
-      	bool match = false;
-      	if (!strcmp (pString, str.pString))
-      	  match = true;
-      	return match;
-      }
-      
-      String& operator+(char ch)
-      {
-      	char * append;
-    	append = (char *)calloc (Len() + 1 + 1, 1);
-      	strcpy (append,pString);
-      	append[Len()] = ch; // Append the character
-      	delete (pString);
-      	pString = append;      	
-      }
-      
-      String& operator+(String &Str)
-      {
-      	char * append;
-      	if (Str.Len())
-      	{
-      	  append = (char *)calloc (Len() + Str.Len() + 1, 1);
-      	  strcpy (append,pString);
-      	  strcpy (&append[Len()],Str.Me());
-      	  delete (pString);
-      	  pString = append;
-      	}      	
-      }
-      
-      String& operator=(const String& Str) 
-	  {
-	  	int len;
-        if(this != &Str)
+	case SAVE: 
+	  SaveProject(projectFilename);
+	break;
+	
+	case READPROJECT:
+	  ofd.Open("Text\0*.TXT");		
+	  if (ReadProject(ofd.Filename()))
+        if (FilesDifferent ( sourceFilename, "sketch.ino"))
         {
-		  len = strlen (Str.pString);
-          if (pString)
-            delete (pString);
-          pString = (char *)calloc (len+1, sizeof (char));
-          //std::
-		  strcpy (pString, Str.pString);          
+          CopyFile (sourceFilename, "sketch.ino"); // Copy source to sketch.ino	  
+  	      MessageBox (0,"You will need to rebuild the project since sketch.ino has changed", "Project Read", 0); 
         }
-
-      return *this;
-      }    
-   };
-
-//String * temp = new String ( "Hello");
-//int len = temp->Len();
-const int MAXCHARS = 25;
-typedef char LineType[MAXCHARS];
-struct LineInfo
-{
-  LineType component1;
-  int x1;
-  int y1;
-  LineType port1;
-  
-  LineType component2;
-  int x2;
-  int y2;
-  LineType port2;
-  bool newData;
-  bool readingComponent;
-  bool readingSource;
-};
-
-LineInfo DefaultLine ()
-{
-  LineInfo line;
-  strcpy (line.component1,"");
-  line.x1 = 0;
-  line.y1 = 0;
-  strcpy (line.port1,"");
-  strcpy (line.component2,"");
-  line.x2 = 0;
-  line.y2 = 0;
-  strcpy (line.port2,"");
-  line.newData = false;
-  line.readingComponent = false;
-  line.readingSource = false;
-  return line;
+	break;
+	
+	case NEWPROJECT:
+	  NewProject();
+	break;
+	
+	case TROUBLESHOOTCONNECTIONS:
+	  TroubleshootPins();
+	break;	  
+  }   
+  Refresh();
 }
 
-void ReadLine (FILE * fp, LineInfo & line, bool & readingComponents, bool & readingSource)
-{
-  char token[MAXCHARS];
-  char filename[255];
-  GetToken (fp,&token[0]);
-  line = DefaultLine ();
-  line.readingComponent = readingComponents;
-  line.readingSource = readingSource;
-  if (strlen(token))
-  {
-    line.newData = true;  
-    if (!strcmp(token,"Project Components")) // First line of the file
-    {
-      readingComponents = true;
-      readingSource = false;
-    }
-    else if (!strcmp(token,"Project Connections"))	
-      readingComponents = false;
-    else if (!strcmp(token,"Project Source"))
-    {
-      readingSource = true;
-      line.readingSource = true;
-    }
-    else if (readingSource)
-    {
-    }
-    else if (readingComponents)
-    { 
-      strcpy (line.component1, token);
-      GetToken (fp,&token[0]); // x
-      line.x1 = atoi (&token[0]);
-      GetToken (fp,&token[0]); // y
-      line.y1 = atoi (&token[0]);	
-    }
-    else // Reading Connections
-    {
-      strcpy ( line.component1, token);
-      GetToken (fp,&token[0]); // x
-      line.x1 = atoi (&token[0]);
-      GetToken (fp,&token[0]); // y
-      line.y1 = atoi (&token[0]);
-      GetToken (fp,&token[0]); // portName
-      strcpy (line.port1, token);
-      GetToken (fp,&token[0]); // Component
-      strcpy (line.component2, token); 
-      GetToken (fp,&token[0]); // x
-      line.x2 = atoi(&token[0]);
-      GetToken (fp,&token[0]); // y
-      line.y2 = atoi(&token[0]);
-      GetToken (fp,&token[0]); // portName
-      strcpy (line.port2, token); 
-    }
-  }
-}
 
 ConnectedComponent * HighLevelMenu::FindComponent (int x, int y)
 {
@@ -810,77 +976,6 @@ void HighLevelMenu::HandleKeyUp ( int scanCode)
       break;      	  
   }
 }
-
-bool FilesDifferent ( char * filename1, char * filename2)
-{
-  bool different = false;
-  FILE * file1;
-  FILE * file2;
-  
-  char line1 [255];
-  char line2 [255];
- 
-  file1 = fopen (filename1,"r");
-  file2 = fopen (filename2,"r");
-  
-  while (!feof(file1) && !feof(file2))
-  {
-    GetLine (file1, line1, sizeof (line1));
-    GetLine (file2, line2, sizeof (line2));
-    if (strcmp (line1,line2)) // Lines are different
-    {
-      different = true;
-      break;
-    } 
-  }
-  
-  fclose(file1);
-  fclose(file2);
-  
-  return different;
-}
-
-void FPrintF ( FILE * outFile, char * line)
-{
-  int len = strlen (line);	
-  char oneCh[] = " ";
-  char ch;
-  
-  for (int i=0;i<len; i++)
-  {
-  	ch = line[i];
-  	oneCh[0] = ch;
-    if (ch == '%')
-      fprintf (outFile, "%%");
-    else if (ch == '\\')  
-      fprintf (outFile, "\\");
-    else 
-      fprintf (outFile, oneCh);
-  }
-}
-
-void CopyFile ( char * inFilename, char * outFilename)
-{
- char sourceLine[255];
- FILE * outFile;
- FILE * inFile;
- 
- inFile = fopen (inFilename,"r");
- outFile = fopen (outFilename, "w"); // Open sketch filename for output
-	   	
- while (!feof(inFile))
- {
-   GetLine (inFile, sourceLine, sizeof (sourceLine));
-   if (strlen (sourceLine))
-   {
-   	 FPrintF (outFile, sourceLine);
-     fprintf (outFile, "\n");	
-   }
- }
- fclose(outFile);
- fclose(inFile);
-}
-
 bool HighLevelMenu::ReadProject(char * filename)
 {
  FILE * fp;
@@ -1083,97 +1178,6 @@ HWND HighLevelMenu::DrawWindow (char * title, HINSTANCE hInst, char * bmpResourc
   return hWnd;
 }
 
-void HighLevelMenu::HandleMenu (int command)
-{
-  OpenFileDialog ofd;		
-  switch (command)
-  {
-    case ADDLED: 
-      AddComponent (1,"",0,0);
-    break;
-    
-    case ADDMOMENTARYSWITCH:
-      AddComponent (2,"",0,0);
-    break;   
-	 
-    case ADDSEVENSEGMENT:
-      AddComponent (6,"",0,0);
-    break;  
-    
-    case ADDLCDDISPLAY:
-      AddComponent (4,"",0,0);
-    break;
-    
-    case ADD4X4KEYPAD:
-      AddComponent (5,"",0,0);
-    break;
-	  
-    case ADDARDUINO:
-      AddComponent (0,"",0,0);
-    break;
-    
-    case ADDDIGIT3:
-      AddComponent (9,"",0,0);
-    break;
-    
-    case ADDROTARYDIP:
-      AddComponent (10,"",0,0);
-    break;
-    
-    case ADDRESISTOR10K:
-      AddComponent (3,"",0,0);
-    break;
-    
-    case ADDRESISTOR220:
-      AddComponent (7,"",0,0);
-    break;
-    
-    case ADDPOT:
-      AddComponent (8,"",0,0);
-    break;
-    
-    case ADDSHIFTREGISTER:
-      AddComponent (11,"",0,0);
-    break;
-    
-    case ADDMULTIPLEXER:
-      AddComponent (12,"",0,0);
-    break;
-    
-	case SAVEAS:
-	  ofd.Save("Text\0*.TXT");		
-	  if (strlen (ofd.Filename()))
-	    SaveProject (ofd.Filename());
-	break;   	
-    
-    case VIEWARDUINOCONNECTIONS:
-      viewConnections->DrawWindow (g_hInst);
-    break; 
-	
-	case SAVE: 
-	  SaveProject(projectFilename);
-	break;
-	
-	case READPROJECT:
-	  ofd.Open("Text\0*.TXT");		
-	  if (ReadProject(ofd.Filename()))
-        if (FilesDifferent ( sourceFilename, "sketch.ino"))
-        {
-          CopyFile (sourceFilename, "sketch.ino"); // Copy source to sketch.ino	  
-  	      MessageBox (0,"You will need to rebuild the project since sketch.ino has changed", "Project Read", 0); 
-        }
-	break;
-	
-	case NEWPROJECT:
-	  NewProject();
-	break;
-	
-	case TROUBLESHOOTCONNECTIONS:
-	  TroubleshootPins();
-	break;	  
-  }   
-  Refresh();
-}
 void HighLevelMenu::HandleMouseMove (HWND hWnd, int x, int y)
 {  
   ConnectedComponent * component;

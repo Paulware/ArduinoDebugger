@@ -243,7 +243,7 @@ void ShiftRegister::Update ()
   Pin * Qh = FindPort ("Qh");
   int QhValue;
    
-  if ((SRCLK==1) && !lastSRCLK && (SER !=-1)) // Transition to high so shift
+  if ((SRCLK==1) && !lastSRCLK) // Transition to high so shift
   {
   	shiftValue *= 2;              // shift
   	QhValue = shiftValue & 0x100; // Get the shifted out value

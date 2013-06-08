@@ -10,6 +10,8 @@
 #define HIGH 1
 #define LOW 0
 #define INPUT_PULLUP 0x2
+#define LSBFIRST 1
+#define MSBFIRST 2
 extern char pgm_read_byte ( char * );
 extern SerialClass Serial;
 extern unsigned long millis();
