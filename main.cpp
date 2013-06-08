@@ -66,6 +66,7 @@ void digitalWrite (byte pin, byte value )
   	  arduino->d[pin]->value.resistance = 20000;
     }
   }
+  SimUtilities::Instance()->UpdateSystem();
 }
 
 int digitalRead (byte pin)

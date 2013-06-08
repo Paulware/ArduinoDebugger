@@ -12,7 +12,8 @@
 #include "Digit3.h"
 #include "RotaryDip.h"
 #include "SimUtilities.h"
-// #include <stdio.h>
+#include "ShiftRegister.h"
+#include "Multiplexer.h"
 #include <Commdlg.h>
 
 static HighLevelMenu * highLevelMenu;
@@ -39,6 +40,8 @@ HighLevelMenu::HighLevelMenu(ViewConnections * _viewConnections):Component()
   ComponentNames.push_back ("Pot");
   ComponentNames.push_back ("Digit3");
   ComponentNames.push_back ("RotaryDip");
+  ComponentNames.push_back ("ShiftRegister");
+  ComponentNames.push_back ("Multiplexer");
   timerCount = 0;
   strcpy ( sourceFilename,"");  
 }
@@ -53,73 +56,6 @@ HighLevelMenu::~HighLevelMenu()
   while (component = components[index++])
     delete (component);	
 }
-
-//  Delete a connection and remove it from the list of connections for the component 
-void HighLevelMenu::ShiftOutConnection (Connection * connection)
-{
-  int head;
-  int tail = 0;
-  Pin * pin1 = connection->pin1; 
-  Pin * pin2 = connection->pin2;
-  Connection * conn;
-  int value;
-  int resistance;
-  char * name1 = pin1->name;
-  char * name2 = pin2->name;
-  char * compName;
-  int index = 0;
-  ConnectedComponent * component = 0;
-  ConnectedComponent * comp;
-  SimUtilities * simUtilities = SimUtilities::Instance();
-  
-  while (comp = components[index++])
-  {
-  	compName = &comp->componentType[0];
-  	head = 0;
-  	while (conn=comp->connections[head++])
-  	{
-  	  if (conn == connection)
-  	  {
-  	  	component = comp;
-  	  	break;
-  	  }
-  	}
-  	if (conn == connection)
-  	  break;
-  }
-  
-  if (component)
-  {
-    head = 0;
-    while (conn = component->connections[head])
-    {
-  	  if (connection != conn) // We do not want to delete this connection
-  	    component->connections [tail++] = component->connections[head];
-  	 head++;
-    } 
-  
-    for (int i=tail; i<component->numConnections; i++)
-      component->connections[i] = 0; // Clear out connections no longer used 
-    component->numConnections = tail;
-  
-    // connection has disappeared, now need to reset values for pin1 connection and for pin2 connection
-    if (conn = FindConnection (pin1))
-    {
-      ResetConnectionPins(pin1);
-      BestValue(conn->pin1,conn->pin2,value,resistance);
-      simUtilities->WriteValue(conn->pin1, value, resistance); // Check for constant value?
-    }
-    
-    if (conn = FindConnection (pin2))
-    {
-      ResetConnectionPins(pin2);
-      BestValue(conn->pin1,conn->pin2,value,resistance);	
-      simUtilities->WriteValue(conn->pin1, value, resistance); // Check for constant value?
-    }
-    delete (connection);  
-  }
-}
-
 
 // Singleton pointer to class
 HighLevelMenu * HighLevelMenu::Instance()
@@ -377,6 +313,8 @@ void HighLevelMenu::AddMenu ()
   AppendMenu (hAddMenu, MF_STRING, ADDARDUINO,         "Arduino");
   AppendMenu (hAddMenu, MF_STRING, ADDDIGIT3,          "3 Digit Display");
   AppendMenu (hAddMenu, MF_STRING, ADDROTARYDIP,       "Rotary Dip Switch");
+  AppendMenu (hAddMenu, MF_STRING, ADDSHIFTREGISTER,   "74HC595 Shift Register");
+  AppendMenu (hAddMenu, MF_STRING, ADDMULTIPLEXER,     "4051 Multiplexer");
     
   hResistorMenu = CreatePopupMenu();
   InsertMenu (hAddMenu, 0,         MF_POPUP|MF_BYPOSITION, (UINT_PTR)hResistorMenu, "Resistor");
@@ -804,9 +742,19 @@ void HighLevelMenu::AddComponent (int index, char * typeName, int x, int y)
 	  component->Init (windowHandle, g_hInst, "DIGIT3");
 	  components[numComponents++] = component;
 	  break;        
-	case 10:	  // Add the Rotary Dip 
+	case 10:
 	  component = new RotaryDip(x,y, this);
 	  component->Init (windowHandle, g_hInst, "ROTARYDIP0");
+	  components[numComponents++] = component;
+	  break;        
+	case 11:	 
+	  component = new ShiftRegister(x,y, this);
+	  component->Init (windowHandle, g_hInst, "SHIFTREGISTER");
+	  components[numComponents++] = component;
+	  break;        
+	case 12:	 
+	  component = new Multiplexer(x,y, this);
+	  component->Init (windowHandle, g_hInst, "MULTIPLEXER");
 	  components[numComponents++] = component;
 	  break;        
       /*
@@ -1182,6 +1130,14 @@ void HighLevelMenu::HandleMenu (int command)
     
     case ADDPOT:
       AddComponent (8,"",0,0);
+    break;
+    
+    case ADDSHIFTREGISTER:
+      AddComponent (11,"",0,0);
+    break;
+    
+    case ADDMULTIPLEXER:
+      AddComponent (12,"",0,0);
     break;
     
 	case SAVEAS:

@@ -1,0 +1,35 @@
+Project Components
+ShiftRegister,3,261
+Arduino,293,271
+Led,837,10
+Led,718,18
+MomentaryDepress,978,30
+Led,606,23
+Led,487,25
+Led,353,20
+Led,239,8
+Led,145,11
+Led,30,11
+Project Connections
+ShiftRegister,3,261,A,Led,837,10,LED +
+ShiftRegister,3,261,B,Led,718,18,LED +
+ShiftRegister,3,261,SER,Arduino,293,271,d11
+ShiftRegister,3,261,SRCLK,Arduino,293,271,d12
+ShiftRegister,3,261,C,Led,606,23,LED +
+ShiftRegister,3,261,D,Led,487,25,LED +
+ShiftRegister,3,261,E,Led,353,20,LED +
+ShiftRegister,3,261,F,Led,239,8,LED +
+ShiftRegister,3,261,G,Led,145,11,LED +
+ShiftRegister,3,261,H,Led,30,11,LED +
+Arduino,293,271,gnd,Led,837,10,LED -
+Arduino,293,271,gnd,Led,718,18,LED -
+Arduino,293,271,d10,MomentaryDepress,978,30,Switch Left
+Arduino,293,271,gnd,MomentaryDepress,978,30,Switch Right
+Arduino,293,271,gnd,Led,606,23,LED -
+Arduino,293,271,gnd,Led,487,25,LED -
+Arduino,293,271,gnd,Led,353,20,LED -
+Arduino,293,271,gnd,Led,239,8,LED -
+Arduino,293,271,gnd,Led,145,11,LED -
+Arduino,293,271,gnd,Led,30,11,LED -
+Project Source
+ShiftRegister.ino

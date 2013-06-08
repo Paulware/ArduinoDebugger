@@ -25,14 +25,6 @@ MomentaryDepress::~MomentaryDepress()
 {
   Connection * connection;
   ConnectedComponent * component;
-  
-  while ( connection = HighLevelMenu::Instance()->FindConnection (input))
-  	HighLevelMenu::Instance()->ShiftOutConnection (connection);
-  delete (input);
-  
-  while ( connection = HighLevelMenu::Instance()->FindConnection (output))
-  	HighLevelMenu::Instance()->ShiftOutConnection (connection);
-  delete (output);
   // DeleteConnections();
 }
 
@@ -81,8 +73,6 @@ void MomentaryDepress::HandleMouseDown (HWND hWnd, int _x, int _y)
   int resistance;
   int inResistance = input->GetResistance();
   int outResistance = output->GetResistance();
-  Connection * inConnection = FindConnection (input);
-  Connection * outConnection = FindConnection (output);
   int inValue = input->GetValue();
   int outValue = output->GetValue();
   char * name1 = input->name;
@@ -99,12 +89,8 @@ void MomentaryDepress::HandleMouseDown (HWND hWnd, int _x, int _y)
   else if (!depressed) // This can happen during debugging
   {
   	depressed = true;
-    // Create a new "virtual" connection
-    connection = new Connection (input,output);
-    connections[numConnections++] = connection; 	
-    pin1 = connection->pin1;
-    pin2 = connection->pin2;
-    HighLevelMenu::Instance()->BestValue(pin1,pin2,value,resistance);	
+  	AddTempConnector (input,output);
+    HighLevelMenu::Instance()->BestValue(input,output,value,resistance);	
     simUtilities->WriteValue(pin1, value, resistance); // Check for constant value?
   }  
   Refresh();
@@ -119,9 +105,8 @@ void MomentaryDepress::HandleMouseUp (HWND hWnd)
   char * name;
   HighLevelMenu * highLevelMenu = (HighLevelMenu *)diagram;
   if (depressed)
-  { 
-    // Delete the virtual connection
-    HighLevelMenu::Instance()->ShiftOutConnection ( connections[numConnections-1]);    
+  {
+    ClearTemporaryConnections(); 
     depressed = false;
   }
   Refresh();

@@ -17,6 +17,18 @@ SimUtilities::SimUtilities ()
   }
 }
 
+void SimUtilities::UpdateSystem()
+{
+  int index = 0;
+  HighLevelMenu * highLevelMenu = HighLevelMenu::Instance();
+  ConnectedComponent * component;  
+  while (component = highLevelMenu->components[index])
+  {
+  	component->Update();
+  	index++;
+  }  	
+}
+
 void SimUtilities::ClearConnections()
 {
   int index = 0;

@@ -31,7 +31,7 @@ class ConnectedComponent:public Component
 	virtual void CleanUp(); 
     Component * diagram;
 	void Refresh();
-	virtual void WriteValue (Pin * pin, int value , int resistance) {};
+	virtual void Update (){};
     void AddTempConnector ( Pin * pin1, Pin * pin2);
 	void ClearTemporaryConnections();
 	void DeleteConnections();

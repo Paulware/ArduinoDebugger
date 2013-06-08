@@ -24,7 +24,6 @@ class HighLevelMenu:public Component
     void HandleMouseDown (HWND hWnd, int x, int y);
     void HandleMouseUp (HWND hWnd);
     void HandleKeyUp ( int scanCode); 
-    void ShiftOutConnection (Connection * connection);
 	void NewProject();
     void SaveProject(char *);
     void NotSavedYet ();    
@@ -34,7 +33,6 @@ class HighLevelMenu:public Component
     ConnectedComponent * FindComponent (int,int );
     ConnectedComponent * FindComponent ( char * typeName);
     int FindComponentName (std::string str);
-    ConnectedComponent * components[MAX_COMPONENTS];   
     void lcdPrint ( char * ch);
     void lcdPrint ( int value);   
     void lcdClear ();
@@ -48,6 +46,8 @@ class HighLevelMenu:public Component
 	void BestValue ( Pin * pin1, Pin * pin2, int & value, int & resistance);
     void ResetConnectionPins (Pin * pin);
     
+    ConnectedComponent * components[MAX_COMPONENTS];   
+  
   private:
     int numComponents;
     int selectedItem;      

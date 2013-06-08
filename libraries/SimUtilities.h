@@ -20,6 +20,7 @@ class SimUtilities
     void WritePinValue ( Pin* pin, int value, int resistance);
     void ViewConnections (HDC hdc);
     bool HasConstantValue (int & value, int & resistance);
+    void UpdateSystem ();
     
   private:
     void MakeList (Pin * pin);

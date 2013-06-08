@@ -1,35 +1,45 @@
-#define BAUDRATE 115200
-#define LOWPIN 2
-#define HIPIN 13
-unsigned long timeout = 0;
+#define A 2
+#define B 3
+#define C 4
 void setup()
-{
-  Serial.begin(BAUDRATE);
-  Serial.println ( "Open Rotary Dip project: RotaryDip.txt" );
-  for (int i=HIPIN; i>(LOWPIN-1); i--)
-  {
-    pinMode (i, INPUT);
-    digitalWrite(i,1); // set pull-up resistor
-  }
+{  
+  Serial.begin (115200);
+  Serial.println ( "Open Multiplexer.txt project" );
+  pinMode (A,OUTPUT);
+  pinMode (B,OUTPUT);
+  pinMode (C,OUTPUT);
+  pinMode (10,INPUT);
+  digitalWrite (10,1); // Set pull-up resistor
+  digitalWrite (A,0);
+  digitalWrite (B,0);
+  digitalWrite (C,0);
 }
-int readPins()
+int offOn = 0;
+bool switchPressed = false;
+int count = 0;
+void loop () // Switch press will toggle between Ch0 and Ch1
 {
-  int values[] = {0,0,1,2,4,8,10,20,40,80,100,200,400,800};
-  int value = 0;     
-    
-  for (int i=HIPIN; i>(LOWPIN-1); i--)
-    if (!digitalRead (i))
-      value += values[i];
-  return value;
-}
-void loop()
-{
-  static int lastPins = 0;
-  int pins = readPins();
-  if (pins != lastPins)
+  if (!digitalRead (10)) // Button Down
+  	switchPressed = true;
+  else
   {
-    Serial.print ( "Switch Selection: " );
-    Serial.println ( pins);
+  	if (switchPressed) // Button Up
+  	{
+  	  if (!offOn)
+  	  {
+	    count++;
+		Serial.println ( count );
+		if (count & 1)
+		  digitalWrite (A,0); // Ch0
+        else
+		  digitalWrite (A,1); // Ch1
+      }
+  	  offOn = 1; // Only written once 
+  	} 
+	else 
+  	{
+  	  offOn = 0;
+  	}
+  	switchPressed = false;
   }
-  lastPins = pins;
 }

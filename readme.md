@@ -5,18 +5,21 @@ Overview:
   <li>Actual Arduino libraries such as Keypad.cpp are used wherever possible.</li>
   </ul>
   
-Supported Projects/Components
-  <ul>
-  <li>LEDSwitch.txt - LED goes on when switch is pressed</li>
-  <li>Resistor5VSwitch.txt - LED goes on when switch is pressed</li>
-  <li>Blinky.txt - LED goes on/off automatically</li> 
-  <li>Digit3.txt - 3 Digit, 7 segment display interactive with momentary depress button</li>
-  <li>Keypad.txt - 4x4 matrix keypad</li>
-  <li>KeypadDisplay.txt - 4x4 matrix keypad and LCD Display</li>
-  <li>LCDDisplay.txt - 4x16 character LCD Display </li>
-  <li>SevenSeg.txt - Simple 1 digit seven segment display</li>
-  <li>RotaryDip.txt - 3 x 10 selection Rotary Dip</li>
-  </ul>
+Supported Projects/Components<br>
+<TABLE>
+<tr><th>Project Files</th><th>Components</th><th>Description</th></tr>
+<tr><td>LEDSwitch.txt</td><td>LED, Momentary Depress Switch</td><td>LED goes on when switch is pressed</td></tr>
+<tr><td>Resistor5VSwitch.txt</td><td>LED, Resistor, Momentary Depress Switch</td><td>LED goes on when switch is pressed</td></tr>
+<tr><td>Blinky.txt</td><td>LED</td><td>LED goes on/off automatically</td></tr>
+<tr><td>Digit3.txt</td><td>3 Digit 7 segment display, Momentary Depress Switch</td><td>7 segment display updates when momentary depress switch presed</td></tr>
+<tr><td>Keypad.txt</td><td>4x4 matrix keypad</td><td>Serial output updates upon key press</td></tr>
+<tr><td>KeypadDisplay.txt</td><td>4x4 matrix keypad, LCD Display</td><td>LCD display updates upon key press</td></tr>
+<tr><td>LCDDisplay.txt</td><td>LCDDisplay, Momentary Depress Switch</td><td>LCD display updates when switch is pressed</td></tr>
+<tr><td>SevenSeg.txt</td><td>7 segment display of single digit</td><td>7 segment digit increments upon switch press</td></tr>
+<tr><td>RotaryDip.txt</td><td>Rotary Dip switch</td><td>Serial output updates when one of 3 rotary dip switches are changed</td></tr>
+<tr><td>ShiftRegister.txt</td><td>74HC595 Shift Register, LED, Momentary Depress Switch</td><td>LEDs connected to shift register update when switch is pressed</td></tr>
+<tr><td>Multiplexer.txt</td><td>4051 Multiplexer</td><td>When switch is depressed multiplexer chooses other input</td></tr>
+</TABLE>
 
 Free CPP Compiler:  
   The free cpp compiler that was used to build this project can be downloaded from
@@ -34,13 +37,15 @@ Build/Run instructions:
   </ul> 
   
 Online videos that demonstrate usage:
-  [video1](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
-  [video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)  
-  [video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)  
-  [3 Digit 7 segment display](http://youtu.be/_W_GPd936jg)
-  [Rotary Dip](http://www.youtube.com/watch?v=vOSc0lCG9bM&feature=youtu.be)
+<ul>
+  <li>[video1](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)</li>
+  <li>[video2](http://www.youtube.com/watch?v=laa9VnRzuT0&feature=youtu.be)</li>
+  <li>[video3](http://www.youtube.com/watch?v=AdZ5GbDC1h0&feature=youtu.be)</li>  
+  <li>[3 Digit 7 segment display](http://youtu.be/_W_GPd936jg)</li>
+  <li>[Rotary Dip](http://www.youtube.com/watch?v=vOSc0lCG9bM&feature=youtu.be)</li>
+</ul>  
   
-Last Tested 6/4/2013 on Windows OS:
+Last Tested 6/7/2013 on Windows OS:
   Windows 8
   
 Last Tested with Arduino libraries from version

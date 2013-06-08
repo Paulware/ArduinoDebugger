@@ -20,7 +20,6 @@ class Pin: public Component
 	int GetValue();
 	int GetResistance();
 	bool IsSet();
-	// void WriteValue (int value);
 	void Connect ( Pin * pin );
     void HandleMouseMove (HWND,int,int);
     void Init (HWND, HINSTANCE);
@@ -41,8 +40,6 @@ class Pin: public Component
     Component * parent;  
 	Component * connection; 
 	bool traversed; 
-	// TODO WriteValue 
-
 };
 #endif
 

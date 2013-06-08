@@ -5,8 +5,8 @@ CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
 RES      = prjArduinoSimulator_private.res
-OBJ      = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o $(RES)
-LINKOBJ  = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o $(RES)
+OBJ      = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o libraries/ShiftRegister.o libraries/Multiplexer.o $(RES)
+LINKOBJ  = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o libraries/ShiftRegister.o libraries/Multiplexer.o $(RES)
 LIBS     = -L"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows   -g3
 INCS     = -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
 CXXINCS  = -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
@@ -115,6 +115,12 @@ libraries/SimUtilities.o: libraries/SimUtilities.cpp
 
 libraries/RotaryDip.o: libraries/RotaryDip.cpp
 	$(CPP) -c libraries/RotaryDip.cpp -o libraries/RotaryDip.o $(CXXFLAGS)
+
+libraries/ShiftRegister.o: libraries/ShiftRegister.cpp
+	$(CPP) -c libraries/ShiftRegister.cpp -o libraries/ShiftRegister.o $(CXXFLAGS)
+
+libraries/Multiplexer.o: libraries/Multiplexer.cpp
+	$(CPP) -c libraries/Multiplexer.cpp -o libraries/Multiplexer.o $(CXXFLAGS)
 
 prjArduinoSimulator_private.res: prjArduinoSimulator_private.rc prjArduinoResource.rc 
 	$(WINDRES) -i prjArduinoSimulator_private.rc --input-format=rc -o prjArduinoSimulator_private.res -O coff 

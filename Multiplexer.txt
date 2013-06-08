@@ -1,0 +1,17 @@
+Project Components
+Arduino,293,271
+Led,837,10
+MomentaryDepress,607,46
+Multiplexer,48,54
+Project Connections
+Arduino,293,271,d10,MomentaryDepress,607,46,Switch Left
+Arduino,293,271,gnd,MomentaryDepress,607,46,Switch Right
+Arduino,293,271,gnd,Multiplexer,48,54,CH0
+Arduino,293,271,5v,Multiplexer,48,54,CH1
+Arduino,293,271,d02,Multiplexer,48,54,A
+Arduino,293,271,d03,Multiplexer,48,54,B
+Arduino,293,271,d04,Multiplexer,48,54,C
+Arduino,293,271,gnd,Led,837,10,LED -
+Led,837,10,LED +,Multiplexer,48,54,IO
+Project Source
+Multiplexer.ino

@@ -1,0 +1,22 @@
+/*  
+ Note: 
+     [16] = Vcc for IC
+	 [8] = Vcc for Motor    
+                 +--v--+
+Motor 1 Enable[1]|     |[16] Vcc for IC
+                 |     |
+  Forward 1   [2]|     |[15] Forward 2
+                 |     |
+   Motor 1 +  [3]|     |[14] Motor 2 +
+                 |     |
+Gnd/Heatsink  [4]|     |[13] Gnd/Heatsink
+                 |     |
+Gnd/Heatsink  [5]|     |[12] Gnd/Heatsink
+                 |     |
+   Motor 1 -  [6]|     |[11] Motor 2 -
+                 |     |
+  Reverse 1   [7]|     |[10] Reverse 2
+                 |     |
+VCC for Motor [8]|     |[9]  Motor 2 Enable
+                 +-----+     
+*/

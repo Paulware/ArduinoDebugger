@@ -28,4 +28,6 @@ ROTARYDIP6 BITMAP "images/rotaryDip6.bmp"
 ROTARYDIP7 BITMAP "images/rotaryDip7.bmp"
 ROTARYDIP8 BITMAP "images/rotaryDip8.bmp"
 ROTARYDIP9 BITMAP "images/rotaryDip9.bmp"
+SHIFTREGISTER BITMAP "images/74HC595.bmp"
+MULTIPLEXER BITMAP "images/4051.bmp"
 

@@ -119,6 +119,8 @@ void ConnectedComponent::AddTempConnector ( Pin * pin1, Pin * pin2)
   int value;
   int resistance;
   Connection * connection;
+  char * name1 = pin1->name;
+  char * name2 = pin2->name;
   // Create a new "virtual" connection
   connection = new Connection (pin1, pin2);  // pin01 and pin02 are connected
   connections[numConnections++] = connection; 	
@@ -132,10 +134,11 @@ void ConnectedComponent::ClearTemporaryConnections()
   Connection * connection;
   Pin * pin1;
   Pin * pin2;
-  int index = numConnections - 1;
+  int index;
   HighLevelMenu * highLevelMenu = HighLevelMenu::Instance();
   if (numTempConnections)
   {
+  	index = numConnections - 1; // Start at the end of the list
   	for (int i=0; i<numTempConnections; i++)
   	{
   	  connection = connections[index];
@@ -145,8 +148,8 @@ void ConnectedComponent::ClearTemporaryConnections()
   	  delete (connection);
   	  highLevelMenu->ResetConnectionPins (pin1);	
   	  highLevelMenu->ResetConnectionPins (pin2);	
-  	  index--;
-  	  numConnections--;
+  	  index--; // Go up one
+  	  numConnections--; // update total number of connections
   	}
   }
   numTempConnections = 0;
