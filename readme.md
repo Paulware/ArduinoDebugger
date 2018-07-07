@@ -31,9 +31,13 @@ Build/Run instructions:
   <li>Download ArduinoDebugger.zip from this github repository</li>
   <li>Unzip the contents of ArduinoDebugger-master.zip/ArduinoDebugger-master to C:\ArduinoDebugger</li>
   <li>Open C:\ArduinoDebugger\prjArduinoSimulator.dev in cpp dev</li>
-  <li>Compile and Run, Open a project</li>
-  <li>Rebuild All if the sketch.ino changes</li>
-  <li>Set breakpoints, Debug</li>
+  <li>Execute, Rebuild All from cpp compiler (F12)</li>
+  <li>Execute, Compile and Run from cpp compiler (F11)</li>
+  <li>Ignore Serial Monitor, and select Project, Open Project</li>
+  <li>Select an existing project (like SevenSeg.txt)</li>
+  <li>This will change a source file called: sketch.ino, so you must close the program and rebuild all (F12) and Run(F11) again</li>
+  <li>Again select the same existing poject (like SevenSeg.txt) this time the sketh.ino will not change</li>
+  <li>The graphical interface should now behave like expected, and breakpoints can be set in the cpp dev environment to step through the arduino code </li>
   </ul> 
   
 Online videos that demonstrate usage:
@@ -45,8 +49,8 @@ Online videos that demonstrate usage:
   <li>[Rotary Dip](http://www.youtube.com/watch?v=vOSc0lCG9bM&feature=youtu.be)</li>
 </ul>  
   
-Last Tested 6/7/2013 on Windows OS:
-  Windows 8
+Last Tested 7/6/2018 on Windows OS:
+  Windows 10
   
 Last Tested with Arduino libraries from version
   1.0.2   
@@ -54,11 +58,6 @@ Last Tested with Arduino libraries from version
 Questions/Comments
   paulware@hotmail.com
   
-Help with projects
-  [I can help with projects](http://fiverr.com/paulware/help-with-your-arduino-project)
-
-<a href="https://tindie.com/shops/Paulware/?ref=offsite_badges&utm_source=sellers_Paulware&utm_medium=badges&utm_campaign=badge_large"><img src="https://s3.amazonaws.com/tindie-static/badges/tindie-large.png" alt="I sell on Tindie"></a>
-
 I have recently discovered <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> which dictates that<br>
 all code changes be preceded by a test case enhancement.  While I don't have that many test-cases, I do have a suite of <br>
 projects which are loaded and tested before every release.
