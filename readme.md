@@ -29,7 +29,7 @@ Build/Run instructions:
   <ul>
   <li>Download and install above cpp dev compiler</li>
   <li>Download ArduinoDebugger.zip from this github repository</li>
-  <li>Unzip ArduinoDebugger.zip to C:\ArduinoDebugger</li>
+  <li>Unzip the contents of ArduinoDebugger-master.zip/ArduinoDebugger-master to C:\ArduinoDebugger</li>
   <li>Open C:\ArduinoDebugger\prjArduinoSimulator.dev in cpp dev</li>
   <li>Compile and Run, Open a project</li>
   <li>Rebuild All if the sketch.ino changes</li>
