@@ -86,7 +86,7 @@ void MomentaryDepress::HandleMouseDown (HWND hWnd, int _x, int _y)
     input->Select(!input->isSelected);
   else if (output->isActive)
     output->Select(!output->isSelected);  
-  else if (!depressed) // This can happen during debugging
+  else // if (!depressed) // This can happen during debugging
   {
   	depressed = true;
   	AddTempConnector (input,output);

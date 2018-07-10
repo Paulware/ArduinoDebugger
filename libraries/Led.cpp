@@ -135,24 +135,26 @@ void Led::Paint(HDC _hdc, PAINTSTRUCT _ps, HDC _hdcMemory)
 {
   bool ledOn; 
   static int lastReason = 0;
+  int gndValue = gnd->GetValue();
+  int pwrValue = power->GetValue();
    
   // Paint the light on/off
-  if (gnd->GetValue() == 1)
+  if (gndValue == 1) // Off
   {
     ledOn = false;
     lastReason = 1;
   }
-  else if (power->GetValue() == 0)
+  else if (pwrValue == 0) // Off 
   {
     ledOn = false;
     lastReason = 2;
   }
-  else if (gnd->GetValue() == -1)
+  else if (gndValue == -1) // Not set yet
   {
     ledOn = false;
     lastReason = 3;
   }
-  else if (power->GetValue() == -1)
+  else if (pwrValue == -1) // Not set yet
   {
     ledOn = false;  
     lastReason =  4;

@@ -1,5 +1,5 @@
 # Project: prjArduinoSimulator
-# Makefile created by Dev-C++ 5.3.0.3
+# Makefile created by Dev-C++ 5.11
 
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
@@ -7,18 +7,17 @@ WINDRES  = windres.exe
 RES      = prjArduinoSimulator_private.res
 OBJ      = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o libraries/ShiftRegister.o libraries/Multiplexer.o $(RES)
 LINKOBJ  = main.o libraries/EEPROM.o libraries/I2C_eeprom.o libraries/SerialClass.o libraries/Pin.o libraries/Led.o libraries/ArduinoComponent.o libraries/Component.o libraries/HighLevelMenu.o libraries/KeyboardMonitor.o libraries/MomentaryDepress.o libraries/SevenSeg.o libraries/LCDDisplay.o libraries/LiquidCrystal.o libraries/Line.o libraries/Connection.o libraries/ViewConnections.o libraries/ConnectedComponent.o libraries/Resistor.o libraries/Keypad.o libraries/KeypadDevice.o libraries/utility/Key.o libraries/Pot.o libraries/Digit3.o libraries/SevenSegment.o libraries/DebugUtilities.o libraries/Components.o libraries/ThreeBySevenSegment.o libraries/SimUtilities.o libraries/RotaryDip.o libraries/ShiftRegister.o libraries/Multiplexer.o $(RES)
-LIBS     = -L"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows   -g3
-INCS     = -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
-CXXINCS  = -I"C:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/ArduinoDebugger/libraries" -I"C:/ArduinoDebugger/libraries/utility"
 BIN      = prjArduinoSimulator.exe
-CXXFLAGS = $(CXXINCS)  -w -Wall -Wfatal-errors -g3
-CFLAGS   = $(INCS)  -w -Wall -Wfatal-errors -g3
-RM       = rm -f
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
 
 all: all-before $(BIN) all-after
-
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
@@ -122,5 +121,6 @@ libraries/ShiftRegister.o: libraries/ShiftRegister.cpp
 libraries/Multiplexer.o: libraries/Multiplexer.cpp
 	$(CPP) -c libraries/Multiplexer.cpp -o libraries/Multiplexer.o $(CXXFLAGS)
 
-prjArduinoSimulator_private.res: prjArduinoSimulator_private.rc prjArduinoResource.rc 
+prjArduinoSimulator_private.res: prjArduinoSimulator_private.rc prjArduinoResource.rc
 	$(WINDRES) -i prjArduinoSimulator_private.rc --input-format=rc -o prjArduinoSimulator_private.res -O coff 
+

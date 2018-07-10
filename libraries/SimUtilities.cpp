@@ -267,14 +267,15 @@ void SimUtilities::MakeList ( Pin * pin)
   HighLevelMenu * highLevelMenu = HighLevelMenu::Instance();
   SerialClass * serialClass = SerialClass::Instance();
     
-  while (component = highLevelMenu->components[index++])
+  while (component = highLevelMenu->components[index++]) // for all components
   {
   	head = 0;
   	while (connection=component->connections[head++])
   	{
-	  if (!ConnectionInList(connection))
+	  if (!ConnectionInList(connection)) // If connection is not in the list 
   	  {  	  
-  	    if (((connection->pin1 == pin)|| (connection->pin2 == pin)) || !pin)
+  	    // TODO: why is pin == 0 used? 
+  	    if (((connection->pin1 == pin)|| (connection->pin2 == pin))) //  || !pin)
   	    {
   	  	  // Add pin to list
   	  	  if (numConnections < MAXCONNECTIONS - 1)
