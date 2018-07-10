@@ -9,7 +9,6 @@ Supported Projects/Components<br>
 <TABLE>
 <tr><th>Project Files</th><th>Components</th><th>Description</th></tr>
 <tr><td>LEDSwitch.txt</td><td>LED, Momentary Depress Switch</td><td>LED goes on when switch is pressed</td></tr>
-<tr><td>Resistor5VSwitch.txt</td><td>LED, Resistor, Momentary Depress Switch</td><td>LED goes on when switch is pressed</td></tr>
 <tr><td>Blinky.txt</td><td>LED</td><td>LED goes on/off automatically</td></tr>
 <tr><td>Digit3.txt</td><td>3 Digit 7 segment display, Momentary Depress Switch</td><td>7 segment display updates when momentary depress switch presed</td></tr>
 <tr><td>Keypad.txt</td><td>4x4 matrix keypad</td><td>Serial output updates upon key press</td></tr>
